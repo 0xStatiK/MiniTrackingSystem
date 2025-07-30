@@ -15,7 +15,7 @@ HTML Tasks
 
         1.3 Add navigation (<nav>) for menu (Home, Tasks, Customers) - done
 
-        1.4 Add main content (<main>) with task list section
+        1.4 Add main content (<main>) with task list section - done
 
         1.5 Add modal <div> for task creation/editing (hidden)
 
