@@ -9,11 +9,11 @@ HTML Tasks
 
     1. Create index.html
 
-        1.1 Add DOCTYPE and HTML structure (html, head, body)
+        1.1 Add DOCTYPE and HTML structure (html, head, body) - done
 
-        1.2 Add header (<header>) with title ("Task Tracker")
+        1.2 Add header (<header>) with title ("Task Tracker") - done
 
-        1.3 Add navigation (<nav>) for menu (Home, Tasks, Customers)
+        1.3 Add navigation (<nav>) for menu (Home, Tasks, Customers) - done
 
         1.4 Add main content (<main>) with task list section
 
