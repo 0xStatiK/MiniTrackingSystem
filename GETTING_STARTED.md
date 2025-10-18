@@ -89,12 +89,12 @@ This creates a basic `package.json` file. You can edit it later to add more deta
 Install the required npm packages:
 
 ```bash
-npm install express sqlite3 bcrypt express-session dotenv
+npm install express better-sqlite3 bcrypt express-session dotenv
 ```
 
 **What each package does:**
 - **express**: Web framework for building the API
-- **sqlite3**: Database driver for SQLite
+- **better-sqlite3**: Fast, synchronous SQLite3 database driver (better performance than sqlite3)
 - **bcrypt**: Library for hashing passwords securely
 - **express-session**: Session management for user login
 - **dotenv**: Loads environment variables from a .env file
@@ -358,7 +358,7 @@ Create `config/database.js`:
 
 ```javascript
 // config/database.js
-const sqlite3 = require('sqlite3').verbose();
+const Database = require('better-sqlite3');
 const path = require('path');
 
 // Database file path
@@ -366,81 +366,75 @@ const DB_PATH = process.env.DB_PATH || path.join(__dirname, '..', 'database', 'm
 
 /**
  * Get database connection
- * @returns {sqlite3.Database} Database instance
+ * @returns {Database} Database instance
  */
 function getDatabase() {
-  const db = new sqlite3.Database(DB_PATH, (err) => {
-    if (err) {
-      console.error('Error opening database:', err.message);
-      throw err;
-    }
+  try {
+    const db = new Database(DB_PATH);
+
+    // Enable foreign keys
+    db.pragma('foreign_keys = ON');
+
     console.log('Connected to SQLite database:', DB_PATH);
-  });
-
-  // Enable foreign keys
-  db.run('PRAGMA foreign_keys = ON');
-
-  return db;
+    return db;
+  } catch (err) {
+    console.error('Error opening database:', err.message);
+    throw err;
+  }
 }
 
 /**
  * Run a query that doesn't return data (INSERT, UPDATE, DELETE)
  * @param {string} sql - SQL query
  * @param {Array} params - Query parameters
- * @returns {Promise<Object>} Result with lastID and changes
+ * @returns {Object} Result with lastInsertRowid and changes
  */
 function run(sql, params = []) {
-  return new Promise((resolve, reject) => {
-    const db = getDatabase();
-    db.run(sql, params, function(err) {
-      db.close();
-      if (err) {
-        reject(err);
-      } else {
-        resolve({ lastID: this.lastID, changes: this.changes });
-      }
-    });
-  });
+  const db = getDatabase();
+  try {
+    const result = db.prepare(sql).run(params);
+    db.close();
+    return { lastID: result.lastInsertRowid, changes: result.changes };
+  } catch (err) {
+    db.close();
+    throw err;
+  }
 }
 
 /**
  * Get a single row
  * @param {string} sql - SQL query
  * @param {Array} params - Query parameters
- * @returns {Promise<Object>} Single row
+ * @returns {Object|undefined} Single row or undefined
  */
 function get(sql, params = []) {
-  return new Promise((resolve, reject) => {
-    const db = getDatabase();
-    db.get(sql, params, (err, row) => {
-      db.close();
-      if (err) {
-        reject(err);
-      } else {
-        resolve(row);
-      }
-    });
-  });
+  const db = getDatabase();
+  try {
+    const row = db.prepare(sql).get(params);
+    db.close();
+    return row;
+  } catch (err) {
+    db.close();
+    throw err;
+  }
 }
 
 /**
  * Get multiple rows
  * @param {string} sql - SQL query
  * @param {Array} params - Query parameters
- * @returns {Promise<Array>} Array of rows
+ * @returns {Array} Array of rows
  */
 function all(sql, params = []) {
-  return new Promise((resolve, reject) => {
-    const db = getDatabase();
-    db.all(sql, params, (err, rows) => {
-      db.close();
-      if (err) {
-        reject(err);
-      } else {
-        resolve(rows);
-      }
-    });
-  });
+  const db = getDatabase();
+  try {
+    const rows = db.prepare(sql).all(params);
+    db.close();
+    return rows;
+  } catch (err) {
+    db.close();
+    throw err;
+  }
 }
 
 module.exports = {
@@ -583,12 +577,7 @@ async function runMigrations() {
 
     // Execute each statement
     for (const statement of statements) {
-      await new Promise((resolve, reject) => {
-        db.run(statement, (err) => {
-          if (err) reject(err);
-          else resolve();
-        });
-      });
+      db.prepare(statement).run();
     }
 
     db.close();

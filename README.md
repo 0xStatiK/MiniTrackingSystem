@@ -5,7 +5,7 @@ A self-hosted web application for tracking Warhammer 40k miniature collections w
 ## Tech Stack
 
 - **Backend**: Node.js, Express.js
-- **Database**: SQLite
+- **Database**: SQLite (better-sqlite3)
 - **Frontend**: HTML, CSS, JavaScript (ES8)
 - **Authentication**: Session-based with bcrypt
 
@@ -53,7 +53,7 @@ A self-hosted web application for tracking Warhammer 40k miniature collections w
 
 - [ ] 1.2 Install core dependencies
   - express (web framework)
-  - sqlite3 (database)
+  - better-sqlite3 (database - faster, synchronous SQLite driver)
   - bcrypt (password hashing)
   - express-session (session management)
   - dotenv (environment variables)

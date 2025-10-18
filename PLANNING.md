@@ -816,7 +816,7 @@ Frontend:
 - ❌ Single-threaded (but adequate for this use case)
 - ❌ Callback complexity (mitigated with async/await)
 
-### Why SQLite?
+### Why SQLite with better-sqlite3?
 
 **Pros:**
 - ✅ No separate database server needed
@@ -825,10 +825,14 @@ Frontend:
 - ✅ Full SQL support
 - ✅ Fast for small to medium datasets
 - ✅ Easy backups (copy the .db file)
+- ✅ **Synchronous API** - easier to use than async sqlite3
+- ✅ **Faster performance** - 2-3x faster than node-sqlite3
+- ✅ **Better type safety** - strict mode by default
 
 **Cons:**
 - ❌ Limited concurrent writes (not an issue for single-user/small user base)
 - ❌ Less suitable for high-traffic applications
+- ❌ Synchronous calls can block (but performance is so fast it's negligible)
 
 **Future Migration Path:**
 If scaling is needed later, can migrate to PostgreSQL or MySQL with minimal code changes.
@@ -1015,7 +1019,7 @@ After understanding fundamentals, can migrate to React or Vue.js for better stru
 - [RESTful API Design](https://restfulapi.net/)
 - [bcrypt Guide](https://www.npmjs.com/package/bcrypt)
 - [Express.js Tutorial](https://expressjs.com/en/starter/installing.html)
-- [SQLite with Node.js](https://github.com/TryGhost/node-sqlite3)
+- [better-sqlite3 Documentation](https://github.com/WiseLibs/better-sqlite3)
 
 ### Warhammer 40k Data Sources
 - [Depot - W40k Companion App](https://github.com/fjlaubscher/depot)
