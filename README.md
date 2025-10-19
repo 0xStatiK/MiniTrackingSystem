@@ -47,18 +47,18 @@ A self-hosted web application for tracking Warhammer 40k miniature collections w
 
 #### 1. Project Setup & Architecture
 
-- [ ] 1.1 Initialize Node.js project
+- [x]] 1.1 Initialize Node.js project
   - Create package.json with npm init
   - Set up project metadata
 
-- [ ] 1.2 Install core dependencies
+- [x] 1.2 Install core dependencies
   - express (web framework)
   - better-sqlite3 (database - faster, synchronous SQLite driver)
   - bcrypt (password hashing)
   - express-session (session management)
   - dotenv (environment variables)
 
-- [ ] 1.3 Create project folder structure
+- [x] 1.3 Create project folder structure
   ```
   /MiniTrackingSystem
     /public
@@ -78,12 +78,12 @@ A self-hosted web application for tracking Warhammer 40k miniature collections w
     .gitignore
   ```
 
-- [ ] 1.4 Set up Express.js server
+- [x] 1.4 Set up Express.js server
   - Create server.js with basic Express app
   - Configure middleware (body-parser, session, static files)
   - Set up basic error handling
 
-- [ ] 1.5 Configure SQLite database connection
+- [x] 1.5 Configure SQLite database connection
   - Create database connection module
   - Set up database initialization script
 
