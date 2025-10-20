@@ -179,6 +179,7 @@ temp/
 *.bak
 *.swp
 *~
+DEVELOPMENT_GUIDE.md
 
 # ========================================
 # MISCELLANEOUS
@@ -252,11 +253,9 @@ security-logs/
 # ========================================
 # NOTES
 # ========================================
-# The following are intentionally NOT ignored:
+# The following are intentionally NOT ignored (committed to git):
 # - .env.example (template for environment variables)
 # - database/migrations/*.sql (schema definitions, no sensitive data)
 # - database/seeds/*.js (uses env vars, no hardcoded secrets)
-# - README.md, PLANNING.md, GETTING_STARTED.md, API.md (documentation)
-BACKEND_IMPLEMENTATION_GUIDE.md
-GETTING_STARTED.md
-NEXT_STEPS.md
+# - *.md files (all documentation and guides)
+# - database/migrations/ and database/seeds/ (schema and seeding scripts)
