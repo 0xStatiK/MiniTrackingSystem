@@ -48,10 +48,7 @@ class Miniature {
     }
 
     // Get total count
-    const countQuery = query.replace(
-      /SELECT.*FROM/s,
-      'SELECT COUNT(*) as count FROM'
-    );
+    const countQuery = query.replace(/SELECT.*FROM/s, 'SELECT COUNT(*) as count FROM');
     const countResult = get(countQuery, params);
     const total = countResult.count;
 
@@ -62,7 +59,7 @@ class Miniature {
     const miniatures = all(query, params);
 
     return {
-      miniatures: miniatures.map(m => ({
+      miniatures: miniatures.map((m) => ({
         id: m.id,
         name: m.name,
         factionId: m.faction_id,
@@ -72,12 +69,12 @@ class Miniature {
         pointsValue: m.points_value,
         baseSize: m.base_size,
         description: m.description,
-        createdAt: m.created_at
+        createdAt: m.created_at,
       })),
       total,
       limit,
       offset,
-      hasMore: offset + miniatures.length < total
+      hasMore: offset + miniatures.length < total,
     };
   }
 
@@ -87,7 +84,8 @@ class Miniature {
    * @returns {Object|undefined} Miniature object with faction and unit type
    */
   static findById(id) {
-    const miniature = get(`
+    const miniature = get(
+      `
       SELECT
         m.*,
         f.id as faction_id,
@@ -98,25 +96,29 @@ class Miniature {
       LEFT JOIN factions f ON m.faction_id = f.id
       LEFT JOIN unit_types ut ON m.unit_type_id = ut.id
       WHERE m.id = ?
-    `, [id]);
+    `,
+      [id]
+    );
 
-    if (!miniature) return undefined;
+    if (!miniature) {
+      return undefined;
+    }
 
     return {
       id: miniature.id,
       name: miniature.name,
       faction: {
         id: miniature.faction_id,
-        name: miniature.faction_name
+        name: miniature.faction_name,
       },
       unitType: {
         id: miniature.unit_type_id,
-        name: miniature.unit_type_name
+        name: miniature.unit_type_name,
       },
       pointsValue: miniature.points_value,
       baseSize: miniature.base_size,
       description: miniature.description,
-      createdAt: miniature.created_at
+      createdAt: miniature.created_at,
     };
   }
 
@@ -128,10 +130,13 @@ class Miniature {
   static create(miniatureData) {
     const { name, factionId, unitTypeId, pointsValue, baseSize, description } = miniatureData;
 
-    const result = run(`
+    const result = run(
+      `
       INSERT INTO miniatures (name, faction_id, unit_type_id, points_value, base_size, description)
       VALUES (?, ?, ?, ?, ?, ?)
-    `, [name, factionId || null, unitTypeId || null, pointsValue || null, baseSize || null, description || null]);
+    `,
+      [name, factionId || null, unitTypeId || null, pointsValue || null, baseSize || null, description || null]
+    );
 
     return {
       id: result.lastID,
@@ -140,7 +145,7 @@ class Miniature {
       unitTypeId: unitTypeId || null,
       pointsValue: pointsValue || null,
       baseSize: baseSize || null,
-      description: description || null
+      description: description || null,
     };
   }
 

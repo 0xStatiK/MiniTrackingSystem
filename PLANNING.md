@@ -23,15 +23,18 @@ This document provides detailed technical planning, architecture decisions, and 
 ## Project Overview
 
 ### Vision
+
 A self-hosted web application that allows Warhammer 40k hobbyists to track their miniature collections, painting progress, and organize their armies with detailed metadata.
 
 ### Core Goals
+
 - **Simple & Beginner-Friendly**: Easy to set up and run locally
 - **Privacy-Focused**: Self-hosted with user control over data sharing
 - **Comprehensive Tracking**: Detailed metadata for assembly, painting, and organization
 - **Community Features**: Optional public sharing of collections
 
 ### Target Users
+
 - Warhammer 40k hobbyists managing personal collections
 - Painters tracking their progress and techniques
 - Collectors organizing large inventories
@@ -292,6 +295,7 @@ A self-hosted web application that allows Warhammer 40k hobbyists to track their
 ### Database Tables
 
 #### 1. users
+
 Stores user account information.
 
 ```sql
@@ -310,6 +314,7 @@ CREATE INDEX idx_users_email ON users(email);
 ```
 
 #### 2. factions
+
 Warhammer 40k factions (Space Marines, Chaos, Orks, etc.).
 
 ```sql
@@ -323,6 +328,7 @@ CREATE INDEX idx_factions_name ON factions(name);
 ```
 
 #### 3. unit_types
+
 Unit categories (Troops, HQ, Elites, etc.).
 
 ```sql
@@ -336,6 +342,7 @@ CREATE INDEX idx_unit_types_name ON unit_types(name);
 ```
 
 #### 4. miniatures
+
 Master list of all miniature types.
 
 ```sql
@@ -358,6 +365,7 @@ CREATE INDEX idx_miniatures_name ON miniatures(name);
 ```
 
 #### 5. lists
+
 User-created collections/armies.
 
 ```sql
@@ -377,6 +385,7 @@ CREATE INDEX idx_lists_is_public ON lists(is_public);
 ```
 
 #### 6. list_items
+
 Miniatures in a user's list with tracking info.
 
 ```sql
@@ -398,6 +407,7 @@ CREATE INDEX idx_list_items_miniature_id ON list_items(miniature_id);
 ```
 
 #### 7. metadata
+
 Extended metadata for list items.
 
 ```sql
@@ -486,6 +496,7 @@ CREATE INDEX idx_metadata_list_item_id ON metadata(list_item_id);
 ### Standard Response Formats
 
 #### Success Response
+
 ```json
 {
   "success": true,
@@ -497,6 +508,7 @@ CREATE INDEX idx_metadata_list_item_id ON metadata(list_item_id);
 ```
 
 #### Error Response
+
 ```json
 {
   "success": false,
@@ -511,6 +523,7 @@ CREATE INDEX idx_metadata_list_item_id ON metadata(list_item_id);
 ```
 
 #### Pagination Response
+
 ```json
 {
   "success": true,
@@ -533,22 +546,26 @@ CREATE INDEX idx_metadata_list_item_id ON metadata(list_item_id);
 ### Page Structure
 
 #### 1. Landing/Login Page (index.html)
+
 - Login form
 - Link to registration
 - App description/branding
 
 #### 2. Registration Page (register.html)
+
 - Registration form
 - Client-side validation
 - Password strength indicator
 
 #### 3. Dashboard (dashboard.html)
+
 - User's lists displayed as cards
 - Create new list button
 - Quick statistics overview
 - Navigation menu
 
 #### 4. List View (list-view.html)
+
 - List header with edit options
 - Table/grid of miniatures
 - Add miniature button
@@ -556,16 +573,19 @@ CREATE INDEX idx_metadata_list_item_id ON metadata(list_item_id);
 - Statistics panel
 
 #### 5. Miniatures Library (miniatures-library.html)
+
 - Searchable/filterable grid of all miniatures
 - Quick add to list functionality
 - Admin can edit miniatures
 
 #### 6. Admin Panel (admin-panel.html)
+
 - Tabs for Factions, Unit Types, Miniatures
 - CRUD forms
 - Data tables with edit/delete actions
 
 #### 7. Public Lists Browser (public-lists.html)
+
 - Grid of public lists from all users
 - Search and filter
 - View-only access to lists
@@ -576,14 +596,14 @@ Each page has its own JS file with a consistent structure:
 
 ```javascript
 // Example: dashboard.js
-(function() {
+(function () {
   'use strict';
 
   // State management
   const state = {
     lists: [],
     currentUser: null,
-    loading: false
+    loading: false,
   };
 
   // API calls
@@ -593,7 +613,7 @@ Each page has its own JS file with a consistent structure:
     },
     createList: async (listData) => {
       // API call implementation
-    }
+    },
   };
 
   // DOM manipulation
@@ -603,14 +623,14 @@ Each page has its own JS file with a consistent structure:
     },
     showLoading: () => {
       // Show loading spinner
-    }
+    },
   };
 
   // Event handlers
   const events = {
     handleCreateList: (e) => {
       // Handle form submission
-    }
+    },
   };
 
   // Initialization
@@ -651,16 +671,18 @@ Each page has its own JS file with a consistent structure:
 
 ```javascript
 // Express session configuration
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: process.env.NODE_ENV === 'production', // HTTPS only in production
-    httpOnly: true, // Prevent XSS
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
-  }
-}));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === 'production', // HTTPS only in production
+      httpOnly: true, // Prevent XSS
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    },
+  })
+);
 ```
 
 ### Authorization Levels
@@ -694,7 +716,7 @@ const isAuthenticated = (req, res, next) => {
   }
   return res.status(401).json({
     success: false,
-    error: { message: 'Authentication required' }
+    error: { message: 'Authentication required' },
   });
 };
 
@@ -705,7 +727,7 @@ const isAdmin = (req, res, next) => {
   }
   return res.status(403).json({
     success: false,
-    error: { message: 'Admin privileges required' }
+    error: { message: 'Admin privileges required' },
   });
 };
 
@@ -717,7 +739,7 @@ const isOwner = (resourceUserId) => {
     }
     return res.status(403).json({
       success: false,
-      error: { message: 'Access denied' }
+      error: { message: 'Access denied' },
     });
   };
 };
@@ -806,6 +828,7 @@ Frontend:
 ### Why Node.js + Express.js?
 
 **Pros:**
+
 - ✅ JavaScript on both frontend and backend (consistent language)
 - ✅ Beginner-friendly with extensive documentation
 - ✅ Large ecosystem (npm packages)
@@ -813,12 +836,14 @@ Frontend:
 - ✅ Good for I/O-heavy applications
 
 **Cons:**
+
 - ❌ Single-threaded (but adequate for this use case)
 - ❌ Callback complexity (mitigated with async/await)
 
 ### Why SQLite with better-sqlite3?
 
 **Pros:**
+
 - ✅ No separate database server needed
 - ✅ Perfect for self-hosted applications
 - ✅ Simple setup (just a file)
@@ -830,6 +855,7 @@ Frontend:
 - ✅ **Better type safety** - strict mode by default
 
 **Cons:**
+
 - ❌ Limited concurrent writes (not an issue for single-user/small user base)
 - ❌ Less suitable for high-traffic applications
 - ❌ Synchronous calls can block (but performance is so fast it's negligible)
@@ -840,6 +866,7 @@ If scaling is needed later, can migrate to PostgreSQL or MySQL with minimal code
 ### Why Vanilla JavaScript (for MVP)?
 
 **Pros:**
+
 - ✅ Learn fundamentals first
 - ✅ No build step needed
 - ✅ Faster initial development
@@ -847,6 +874,7 @@ If scaling is needed later, can migrate to PostgreSQL or MySQL with minimal code
 - ✅ Smaller bundle size
 
 **Cons:**
+
 - ❌ More verbose DOM manipulation
 - ❌ Less structured state management
 - ❌ No component reusability
@@ -859,29 +887,34 @@ After understanding fundamentals, can migrate to React or Vue.js for better stru
 ## Security Considerations
 
 ### Password Security
+
 - **bcrypt**: Use bcrypt for password hashing (10-12 salt rounds)
 - **Never store plain text passwords**
 - **Enforce minimum password length** (8+ characters recommended)
 
 ### Session Security
+
 - **Secure cookies**: HTTPS only in production
 - **HttpOnly flag**: Prevent JavaScript access to cookies
 - **Session timeout**: Implement automatic logout
 - **CSRF protection**: Add CSRF tokens (Phase 2)
 
 ### Input Validation
+
 - **Server-side validation**: Never trust client input
 - **SQL injection prevention**: Use parameterized queries
 - **XSS prevention**: Escape user-generated content
 - **Input sanitization**: Remove/escape dangerous characters
 
 ### API Security
+
 - **Rate limiting**: Prevent brute force attacks (Phase 3)
 - **Authentication on all routes**: Except public endpoints
 - **Authorization checks**: Verify resource ownership
 - **Error messages**: Don't leak sensitive information
 
 ### Database Security
+
 - **Parameterized queries**: Prevent SQL injection
 - **Foreign key constraints**: Maintain referential integrity
 - **Cascade deletes**: Clean up orphaned records
@@ -892,23 +925,27 @@ After understanding fundamentals, can migrate to React or Vue.js for better stru
 ## Scalability & Performance
 
 ### Database Optimization
+
 - **Indexes**: Add indexes on frequently queried columns
 - **Query optimization**: Use JOINs efficiently
 - **Connection pooling**: Reuse database connections
 - **Prepared statements**: Cache query plans
 
 ### Caching Strategy (Phase 2+)
+
 - **In-memory cache**: Cache factions and unit types
 - **Redis**: For session storage and caching
 - **Cache invalidation**: Clear cache on updates
 
 ### Frontend Optimization
+
 - **Lazy loading**: Load images and data on-demand
 - **Pagination**: Limit results per page
 - **Debouncing**: Delay search input processing
 - **Minification**: Compress CSS and JS (production)
 
 ### Backend Optimization
+
 - **Compression**: Gzip response bodies
 - **Static file caching**: Set cache headers
 - **Database connection pooling**
@@ -919,6 +956,7 @@ After understanding fundamentals, can migrate to React or Vue.js for better stru
 ## Future Enhancements
 
 ### Phase 2 Features
+
 1. **Warhammer 40k Data Integration**
    - Import faction/unit data from GitHub sources
    - Keep data updated with community sources
@@ -946,6 +984,7 @@ After understanding fundamentals, can migrate to React or Vue.js for better stru
    - Spending tracker
 
 ### Phase 3 Features
+
 1. **Deployment**
    - Docker containerization
    - Proxmox VM setup
@@ -982,24 +1021,28 @@ After understanding fundamentals, can migrate to React or Vue.js for better stru
 ## Development Best Practices
 
 ### Code Style
+
 - Use consistent naming conventions (camelCase for JS, snake_case for SQL)
 - Add comments for complex logic
 - Write descriptive function and variable names
 - Keep functions small and focused (single responsibility)
 
 ### Git Workflow
+
 - Commit frequently with clear messages
 - Use feature branches for new features
 - Keep main branch stable
 - Write meaningful commit messages
 
 ### Testing Strategy
+
 - Manual testing for MVP
 - Write unit tests for critical functions (Phase 2)
 - Integration tests for API endpoints (Phase 2)
 - E2E tests for user flows (Phase 3)
 
 ### Documentation
+
 - Keep README.md updated
 - Document API endpoints in API.md
 - Add inline comments for complex code
@@ -1010,22 +1053,26 @@ After understanding fundamentals, can migrate to React or Vue.js for better stru
 ## References & Resources
 
 ### Official Documentation
+
 - [Node.js Docs](https://nodejs.org/docs/)
 - [Express.js Docs](https://expressjs.com/)
 - [SQLite Docs](https://www.sqlite.org/docs.html)
 - [MDN Web Docs](https://developer.mozilla.org/)
 
 ### Learning Resources
+
 - [RESTful API Design](https://restfulapi.net/)
 - [bcrypt Guide](https://www.npmjs.com/package/bcrypt)
 - [Express.js Tutorial](https://expressjs.com/en/starter/installing.html)
 - [better-sqlite3 Documentation](https://github.com/WiseLibs/better-sqlite3)
 
 ### Warhammer 40k Data Sources
+
 - [Depot - W40k Companion App](https://github.com/fjlaubscher/depot)
 - [UnitCrunch Data Exports](https://github.com/korzxd/UnitCrunch-data-exports)
 
 ### Tools
+
 - [Postman](https://www.postman.com/) - API testing
 - [DB Browser for SQLite](https://sqlitebrowser.org/) - Database management
 - [Visual Studio Code](https://code.visualstudio.com/) - Code editor

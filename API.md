@@ -69,6 +69,7 @@ Session-based authentication using cookies. After login, a session cookie is aut
 **Authentication Required:** No
 
 **Request Body:**
+
 ```json
 {
   "username": "string (3-50 characters, required)",
@@ -79,6 +80,7 @@ Session-based authentication using cookies. After login, a session cookie is aut
 ```
 
 **Success Response:** `201 Created`
+
 ```json
 {
   "success": true,
@@ -90,10 +92,12 @@ Session-based authentication using cookies. After login, a session cookie is aut
 ```
 
 **Error Responses:**
+
 - `400 Bad Request` - Validation errors
 - `409 Conflict` - Username or email already exists
 
 **Example:**
+
 ```bash
 curl -X POST http://localhost:3000/api/auth/register \
   -H "Content-Type: application/json" \
@@ -114,6 +118,7 @@ curl -X POST http://localhost:3000/api/auth/register \
 **Authentication Required:** No
 
 **Request Body:**
+
 ```json
 {
   "username": "string (required)",
@@ -122,6 +127,7 @@ curl -X POST http://localhost:3000/api/auth/register \
 ```
 
 **Success Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -137,10 +143,12 @@ curl -X POST http://localhost:3000/api/auth/register \
 ```
 
 **Error Responses:**
+
 - `400 Bad Request` - Missing credentials
 - `401 Unauthorized` - Invalid credentials
 
 **Example:**
+
 ```bash
 curl -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
@@ -160,6 +168,7 @@ curl -X POST http://localhost:3000/api/auth/login \
 **Authentication Required:** Yes
 
 **Success Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -170,6 +179,7 @@ curl -X POST http://localhost:3000/api/auth/login \
 ```
 
 **Example:**
+
 ```bash
 curl -X POST http://localhost:3000/api/auth/logout \
   -b cookies.txt
@@ -184,6 +194,7 @@ curl -X POST http://localhost:3000/api/auth/logout \
 **Authentication Required:** No
 
 **Success Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -199,6 +210,7 @@ curl -X POST http://localhost:3000/api/auth/logout \
 ```
 
 If not authenticated:
+
 ```json
 {
   "success": true,
@@ -219,6 +231,7 @@ If not authenticated:
 **Authentication Required:** Yes
 
 **Success Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -241,6 +254,7 @@ If not authenticated:
 **Authentication Required:** Yes
 
 **Request Body:**
+
 ```json
 {
   "email": "string (optional)",
@@ -250,6 +264,7 @@ If not authenticated:
 ```
 
 **Success Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -270,6 +285,7 @@ If not authenticated:
 **Authentication Required:** No
 
 **Success Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -297,6 +313,7 @@ If not authenticated:
 **Authentication Required:** No
 
 **Success Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -309,6 +326,7 @@ If not authenticated:
 ```
 
 **Error Responses:**
+
 - `404 Not Found` - Faction not found
 
 ---
@@ -320,6 +338,7 @@ If not authenticated:
 **Authentication Required:** Yes (Admin only)
 
 **Request Body:**
+
 ```json
 {
   "name": "string (required, unique)",
@@ -328,6 +347,7 @@ If not authenticated:
 ```
 
 **Success Response:** `201 Created`
+
 ```json
 {
   "success": true,
@@ -340,6 +360,7 @@ If not authenticated:
 ```
 
 **Error Responses:**
+
 - `400 Bad Request` - Validation errors
 - `403 Forbidden` - Not an admin user
 - `409 Conflict` - Faction name already exists
@@ -353,6 +374,7 @@ If not authenticated:
 **Authentication Required:** Yes (Admin only)
 
 **Request Body:**
+
 ```json
 {
   "name": "string (optional)",
@@ -361,6 +383,7 @@ If not authenticated:
 ```
 
 **Success Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -379,6 +402,7 @@ If not authenticated:
 **Authentication Required:** Yes (Admin only)
 
 **Success Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -389,6 +413,7 @@ If not authenticated:
 ```
 
 **Error Responses:**
+
 - `403 Forbidden` - Not an admin user
 - `404 Not Found` - Faction not found
 - `409 Conflict` - Faction is in use by miniatures
@@ -404,6 +429,7 @@ If not authenticated:
 **Authentication Required:** No
 
 **Success Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -444,6 +470,7 @@ Similar structure to Factions endpoints. See [Factions](#factions) for reference
 **Authentication Required:** No
 
 **Query Parameters:**
+
 - `faction` (integer, optional) - Filter by faction ID
 - `unitType` (integer, optional) - Filter by unit type ID
 - `search` (string, optional) - Search by name
@@ -451,6 +478,7 @@ Similar structure to Factions endpoints. See [Factions](#factions) for reference
 - `offset` (integer, optional) - Pagination offset (default: 0)
 
 **Success Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -477,6 +505,7 @@ Similar structure to Factions endpoints. See [Factions](#factions) for reference
 ```
 
 **Example:**
+
 ```bash
 # Get all Space Marine units
 curl http://localhost:3000/api/miniatures?faction=1
@@ -494,6 +523,7 @@ curl http://localhost:3000/api/miniatures?search=Captain
 **Authentication Required:** No
 
 **Success Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -525,6 +555,7 @@ curl http://localhost:3000/api/miniatures?search=Captain
 **Authentication Required:** Yes (Admin only)
 
 **Request Body:**
+
 ```json
 {
   "name": "string (required)",
@@ -537,6 +568,7 @@ curl http://localhost:3000/api/miniatures?search=Captain
 ```
 
 **Success Response:** `201 Created`
+
 ```json
 {
   "success": true,
@@ -570,6 +602,7 @@ curl http://localhost:3000/api/miniatures?search=Captain
 **Authentication Required:** Yes
 
 **Success Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -597,10 +630,12 @@ curl http://localhost:3000/api/miniatures?search=Captain
 **Authentication Required:** No
 
 **Query Parameters:**
+
 - `limit` (integer, optional) - Results per page (default: 20)
 - `offset` (integer, optional) - Pagination offset (default: 0)
 
 **Success Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -632,6 +667,7 @@ curl http://localhost:3000/api/miniatures?search=Captain
 **Authentication Required:** Conditional (required for private lists)
 
 **Success Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -680,6 +716,7 @@ curl http://localhost:3000/api/miniatures?search=Captain
 ```
 
 **Error Responses:**
+
 - `403 Forbidden` - Private list owned by another user
 - `404 Not Found` - List not found
 
@@ -692,6 +729,7 @@ curl http://localhost:3000/api/miniatures?search=Captain
 **Authentication Required:** Yes
 
 **Request Body:**
+
 ```json
 {
   "name": "string (required, max 100 characters)",
@@ -701,6 +739,7 @@ curl http://localhost:3000/api/miniatures?search=Captain
 ```
 
 **Success Response:** `201 Created`
+
 ```json
 {
   "success": true,
@@ -722,6 +761,7 @@ curl http://localhost:3000/api/miniatures?search=Captain
 **Authentication Required:** Yes (Owner only)
 
 **Request Body:**
+
 ```json
 {
   "name": "string (optional)",
@@ -731,6 +771,7 @@ curl http://localhost:3000/api/miniatures?search=Captain
 ```
 
 **Success Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -749,6 +790,7 @@ curl http://localhost:3000/api/miniatures?search=Captain
 **Authentication Required:** Yes (Owner only)
 
 **Success Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -769,6 +811,7 @@ curl http://localhost:3000/api/miniatures?search=Captain
 **Authentication Required:** Yes (List owner only)
 
 **Request Body:**
+
 ```json
 {
   "miniatureId": "integer (required)",
@@ -780,11 +823,13 @@ curl http://localhost:3000/api/miniatures?search=Captain
 ```
 
 **Valid Assembly Status Values:**
+
 - `Not Started`
 - `In Progress`
 - `Assembled`
 
 **Valid Painting Status Values:**
+
 - `Unpainted`
 - `Primed`
 - `Base Coated`
@@ -792,6 +837,7 @@ curl http://localhost:3000/api/miniatures?search=Captain
 - `Finished`
 
 **Success Response:** `201 Created`
+
 ```json
 {
   "success": true,
@@ -815,6 +861,7 @@ curl http://localhost:3000/api/miniatures?search=Captain
 **Authentication Required:** Yes (List owner only)
 
 **Request Body:**
+
 ```json
 {
   "quantity": "integer (optional)",
@@ -825,6 +872,7 @@ curl http://localhost:3000/api/miniatures?search=Captain
 ```
 
 **Success Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -843,6 +891,7 @@ curl http://localhost:3000/api/miniatures?search=Captain
 **Authentication Required:** Yes (List owner only)
 
 **Success Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -863,6 +912,7 @@ curl http://localhost:3000/api/miniatures?search=Captain
 **Authentication Required:** Conditional (required for private lists)
 
 **Success Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -880,6 +930,7 @@ curl http://localhost:3000/api/miniatures?search=Captain
 ```
 
 **Error Responses:**
+
 - `404 Not Found` - No metadata exists for this item
 
 ---
@@ -891,6 +942,7 @@ curl http://localhost:3000/api/miniatures?search=Captain
 **Authentication Required:** Yes (List owner only)
 
 **Request Body:**
+
 ```json
 {
   "paintColors": "string (optional)",
@@ -903,6 +955,7 @@ curl http://localhost:3000/api/miniatures?search=Captain
 ```
 
 **Success Response:** `201 Created` or `200 OK`
+
 ```json
 {
   "success": true,
@@ -922,6 +975,7 @@ curl http://localhost:3000/api/miniatures?search=Captain
 **Authentication Required:** Yes (List owner only)
 
 **Success Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -973,9 +1027,10 @@ curl http://localhost:3000/api/miniatures?search=Captain
 
 ## Rate Limiting
 
-*To be implemented in Phase 3*
+_To be implemented in Phase 3_
 
 API endpoints will be rate-limited to prevent abuse:
+
 - Authentication endpoints: 5 requests per minute
 - Other endpoints: 100 requests per minute
 
@@ -994,6 +1049,7 @@ GET /api/miniatures?limit=20&offset=20
 ```
 
 Response includes pagination metadata:
+
 ```json
 {
   "success": true,
@@ -1048,9 +1104,10 @@ curl -X POST http://localhost:3000/api/auth/logout -b cookies.txt
 
 ## WebSocket Support
 
-*Planned for Phase 3*
+_Planned for Phase 3_
 
 Real-time updates for:
+
 - New public lists
 - Comments on lists
 - Activity feed updates
@@ -1060,18 +1117,21 @@ Real-time updates for:
 ## Changelog
 
 ### Version 1.0 (Phase 1 - Current)
+
 - Initial API design
 - Session-based authentication
 - CRUD operations for all entities
 - Public/private list system
 
 ### Version 2.0 (Phase 2 - Planned)
+
 - OAuth integration
 - Image upload endpoints
 - Advanced statistics
 - Data export endpoints
 
 ### Version 3.0 (Phase 3 - Planned)
+
 - Army list builder endpoints
 - Social features (follow, like, comment)
 - WebSocket support
@@ -1082,6 +1142,7 @@ Real-time updates for:
 ## Support
 
 For issues or questions:
+
 - Check the [README.md](README.md)
 - See [GETTING_STARTED.md](GETTING_STARTED.md) for setup help
 - Review [PLANNING.md](PLANNING.md) for architecture details

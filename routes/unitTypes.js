@@ -1,5 +1,6 @@
 // routes/unitTypes.js
 const express = require('express');
+
 const router = express.Router();
 const UnitType = require('../models/UnitType');
 const { isAdmin } = require('../middleware/auth');
@@ -15,17 +16,16 @@ router.get('/', (req, res) => {
 
     res.json({
       success: true,
-      data: unitTypes
+      data: unitTypes,
     });
-
   } catch (error) {
     console.error('Get unit types error:', error);
     res.status(500).json({
       success: false,
       error: {
         message: 'Failed to get unit types',
-        code: 'INTERNAL_ERROR'
-      }
+        code: 'INTERNAL_ERROR',
+      },
     });
   }
 });
@@ -44,24 +44,23 @@ router.get('/:id', (req, res) => {
         success: false,
         error: {
           message: 'Unit type not found',
-          code: 'NOT_FOUND'
-        }
+          code: 'NOT_FOUND',
+        },
       });
     }
 
     res.json({
       success: true,
-      data: unitType
+      data: unitType,
     });
-
   } catch (error) {
     console.error('Get unit type error:', error);
     res.status(500).json({
       success: false,
       error: {
         message: 'Failed to get unit type',
-        code: 'INTERNAL_ERROR'
-      }
+        code: 'INTERNAL_ERROR',
+      },
     });
   }
 });
@@ -82,8 +81,8 @@ router.post('/', isAdmin, (req, res) => {
         error: {
           message: 'Unit type name is required',
           code: 'VALIDATION_ERROR',
-          field: 'name'
-        }
+          field: 'name',
+        },
       });
     }
 
@@ -94,8 +93,8 @@ router.post('/', isAdmin, (req, res) => {
         error: {
           message: 'Unit type name already exists',
           code: 'DUPLICATE_ENTRY',
-          field: 'name'
-        }
+          field: 'name',
+        },
       });
     }
 
@@ -103,17 +102,16 @@ router.post('/', isAdmin, (req, res) => {
 
     res.status(201).json({
       success: true,
-      data: unitType
+      data: unitType,
     });
-
   } catch (error) {
     console.error('Create unit type error:', error);
     res.status(500).json({
       success: false,
       error: {
         message: 'Failed to create unit type',
-        code: 'INTERNAL_ERROR'
-      }
+        code: 'INTERNAL_ERROR',
+      },
     });
   }
 });
@@ -135,8 +133,8 @@ router.put('/:id', isAdmin, (req, res) => {
         success: false,
         error: {
           message: 'Unit type not found',
-          code: 'NOT_FOUND'
-        }
+          code: 'NOT_FOUND',
+        },
       });
     }
 
@@ -147,22 +145,22 @@ router.put('/:id', isAdmin, (req, res) => {
         error: {
           message: 'Unit type name cannot be empty',
           code: 'VALIDATION_ERROR',
-          field: 'name'
-        }
+          field: 'name',
+        },
       });
     }
 
     // Check for duplicate name (excluding current unit type)
     if (name) {
       const existingUnitType = UnitType.findByName(name);
-      if (existingUnitType && existingUnitType.id !== parseInt(unitTypeId)) {
+      if (existingUnitType && existingUnitType.id !== parseInt(unitTypeId, 10)) {
         return res.status(409).json({
           success: false,
           error: {
             message: 'Unit type name already exists',
             code: 'DUPLICATE_ENTRY',
-            field: 'name'
-          }
+            field: 'name',
+          },
         });
       }
     }
@@ -172,18 +170,17 @@ router.put('/:id', isAdmin, (req, res) => {
     res.json({
       success: true,
       data: {
-        message: 'Unit type updated successfully'
-      }
+        message: 'Unit type updated successfully',
+      },
     });
-
   } catch (error) {
     console.error('Update unit type error:', error);
     res.status(500).json({
       success: false,
       error: {
         message: 'Failed to update unit type',
-        code: 'INTERNAL_ERROR'
-      }
+        code: 'INTERNAL_ERROR',
+      },
     });
   }
 });
@@ -204,8 +201,8 @@ router.delete('/:id', isAdmin, (req, res) => {
         success: false,
         error: {
           message: 'Unit type not found',
-          code: 'NOT_FOUND'
-        }
+          code: 'NOT_FOUND',
+        },
       });
     }
 
@@ -215,8 +212,8 @@ router.delete('/:id', isAdmin, (req, res) => {
         success: false,
         error: {
           message: 'Cannot delete unit type that is in use by miniatures',
-          code: 'CONFLICT'
-        }
+          code: 'CONFLICT',
+        },
       });
     }
 
@@ -225,18 +222,17 @@ router.delete('/:id', isAdmin, (req, res) => {
     res.json({
       success: true,
       data: {
-        message: 'Unit type deleted successfully'
-      }
+        message: 'Unit type deleted successfully',
+      },
     });
-
   } catch (error) {
     console.error('Delete unit type error:', error);
     res.status(500).json({
       success: false,
       error: {
         message: 'Failed to delete unit type',
-        code: 'INTERNAL_ERROR'
-      }
+        code: 'INTERNAL_ERROR',
+      },
     });
   }
 });

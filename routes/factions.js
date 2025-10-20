@@ -1,5 +1,6 @@
 // routes/factions.js
 const express = require('express');
+
 const router = express.Router();
 const Faction = require('../models/Faction');
 const { isAdmin } = require('../middleware/auth');
@@ -15,17 +16,16 @@ router.get('/', (req, res) => {
 
     res.json({
       success: true,
-      data: factions
+      data: factions,
     });
-
   } catch (error) {
     console.error('Get factions error:', error);
     res.status(500).json({
       success: false,
       error: {
         message: 'Failed to get factions',
-        code: 'INTERNAL_ERROR'
-      }
+        code: 'INTERNAL_ERROR',
+      },
     });
   }
 });
@@ -44,24 +44,23 @@ router.get('/:id', (req, res) => {
         success: false,
         error: {
           message: 'Faction not found',
-          code: 'NOT_FOUND'
-        }
+          code: 'NOT_FOUND',
+        },
       });
     }
 
     res.json({
       success: true,
-      data: faction
+      data: faction,
     });
-
   } catch (error) {
     console.error('Get faction error:', error);
     res.status(500).json({
       success: false,
       error: {
         message: 'Failed to get faction',
-        code: 'INTERNAL_ERROR'
-      }
+        code: 'INTERNAL_ERROR',
+      },
     });
   }
 });
@@ -82,8 +81,8 @@ router.post('/', isAdmin, (req, res) => {
         error: {
           message: 'Faction name is required',
           code: 'VALIDATION_ERROR',
-          field: 'name'
-        }
+          field: 'name',
+        },
       });
     }
 
@@ -94,8 +93,8 @@ router.post('/', isAdmin, (req, res) => {
         error: {
           message: 'Faction name already exists',
           code: 'DUPLICATE_ENTRY',
-          field: 'name'
-        }
+          field: 'name',
+        },
       });
     }
 
@@ -103,17 +102,16 @@ router.post('/', isAdmin, (req, res) => {
 
     res.status(201).json({
       success: true,
-      data: faction
+      data: faction,
     });
-
   } catch (error) {
     console.error('Create faction error:', error);
     res.status(500).json({
       success: false,
       error: {
         message: 'Failed to create faction',
-        code: 'INTERNAL_ERROR'
-      }
+        code: 'INTERNAL_ERROR',
+      },
     });
   }
 });
@@ -135,8 +133,8 @@ router.put('/:id', isAdmin, (req, res) => {
         success: false,
         error: {
           message: 'Faction not found',
-          code: 'NOT_FOUND'
-        }
+          code: 'NOT_FOUND',
+        },
       });
     }
 
@@ -147,22 +145,22 @@ router.put('/:id', isAdmin, (req, res) => {
         error: {
           message: 'Faction name cannot be empty',
           code: 'VALIDATION_ERROR',
-          field: 'name'
-        }
+          field: 'name',
+        },
       });
     }
 
     // Check for duplicate name (excluding current faction)
     if (name) {
       const existingFaction = Faction.findByName(name);
-      if (existingFaction && existingFaction.id !== parseInt(factionId)) {
+      if (existingFaction && existingFaction.id !== parseInt(factionId, 10)) {
         return res.status(409).json({
           success: false,
           error: {
             message: 'Faction name already exists',
             code: 'DUPLICATE_ENTRY',
-            field: 'name'
-          }
+            field: 'name',
+          },
         });
       }
     }
@@ -172,18 +170,17 @@ router.put('/:id', isAdmin, (req, res) => {
     res.json({
       success: true,
       data: {
-        message: 'Faction updated successfully'
-      }
+        message: 'Faction updated successfully',
+      },
     });
-
   } catch (error) {
     console.error('Update faction error:', error);
     res.status(500).json({
       success: false,
       error: {
         message: 'Failed to update faction',
-        code: 'INTERNAL_ERROR'
-      }
+        code: 'INTERNAL_ERROR',
+      },
     });
   }
 });
@@ -204,8 +201,8 @@ router.delete('/:id', isAdmin, (req, res) => {
         success: false,
         error: {
           message: 'Faction not found',
-          code: 'NOT_FOUND'
-        }
+          code: 'NOT_FOUND',
+        },
       });
     }
 
@@ -215,8 +212,8 @@ router.delete('/:id', isAdmin, (req, res) => {
         success: false,
         error: {
           message: 'Cannot delete faction that is in use by miniatures',
-          code: 'CONFLICT'
-        }
+          code: 'CONFLICT',
+        },
       });
     }
 
@@ -225,18 +222,17 @@ router.delete('/:id', isAdmin, (req, res) => {
     res.json({
       success: true,
       data: {
-        message: 'Faction deleted successfully'
-      }
+        message: 'Faction deleted successfully',
+      },
     });
-
   } catch (error) {
     console.error('Delete faction error:', error);
     res.status(500).json({
       success: false,
       error: {
         message: 'Failed to delete faction',
-        code: 'INTERNAL_ERROR'
-      }
+        code: 'INTERNAL_ERROR',
+      },
     });
   }
 });

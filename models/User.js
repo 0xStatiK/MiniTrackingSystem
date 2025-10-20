@@ -1,6 +1,6 @@
 // models/User.js
-const { get, run, all } = require('../config/database');
 const bcrypt = require('bcrypt');
+const { get, run, all } = require('../config/database');
 
 /**
  * User Model
@@ -20,7 +20,7 @@ class User {
         username: user.username,
         email: user.email,
         isAdmin: Boolean(user.is_admin),
-        createdAt: user.created_at
+        createdAt: user.created_at,
       };
     }
     return undefined;
@@ -59,16 +59,18 @@ class User {
     const passwordHash = await bcrypt.hash(password, 10);
 
     // Insert user
-    const result = run(
-      'INSERT INTO users (username, email, password_hash, is_admin) VALUES (?, ?, ?, ?)',
-      [username, email, passwordHash, 0]
-    );
+    const result = run('INSERT INTO users (username, email, password_hash, is_admin) VALUES (?, ?, ?, ?)', [
+      username,
+      email,
+      passwordHash,
+      0,
+    ]);
 
     return {
       id: result.lastID,
       username,
       email,
-      isAdmin: false
+      isAdmin: false,
     };
   }
 
@@ -98,7 +100,7 @@ class User {
    * @returns {boolean} True if password matches
    */
   static async verifyPassword(plainPassword, passwordHash) {
-    return await bcrypt.compare(plainPassword, passwordHash);
+    return bcrypt.compare(plainPassword, passwordHash);
   }
 
   /**
@@ -107,12 +109,12 @@ class User {
    */
   static getAll() {
     const users = all('SELECT id, username, email, is_admin, created_at FROM users');
-    return users.map(user => ({
+    return users.map((user) => ({
       id: user.id,
       username: user.username,
       email: user.email,
       isAdmin: Boolean(user.is_admin),
-      createdAt: user.created_at
+      createdAt: user.created_at,
     }));
   }
 

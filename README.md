@@ -147,16 +147,19 @@ See [PLANNING.md](PLANNING.md) for detailed Entity Relationship Diagrams.
 ## API Endpoints
 
 ### Authentication
+
 - `POST /api/auth/register` - Register new user
 - `POST /api/auth/login` - User login
 - `POST /api/auth/logout` - User logout
 - `GET /api/auth/check` - Check authentication status
 
 ### Users
+
 - `GET /api/users/me` - Get current user profile
 - `PUT /api/users/me` - Update current user profile
 
 ### Factions
+
 - `GET /api/factions` - Get all factions
 - `GET /api/factions/:id` - Get single faction
 - `POST /api/factions` - Create faction (admin only)
@@ -164,6 +167,7 @@ See [PLANNING.md](PLANNING.md) for detailed Entity Relationship Diagrams.
 - `DELETE /api/factions/:id` - Delete faction (admin only)
 
 ### Unit Types
+
 - `GET /api/unit-types` - Get all unit types
 - `GET /api/unit-types/:id` - Get single unit type
 - `POST /api/unit-types` - Create unit type (admin only)
@@ -171,6 +175,7 @@ See [PLANNING.md](PLANNING.md) for detailed Entity Relationship Diagrams.
 - `DELETE /api/unit-types/:id` - Delete unit type (admin only)
 
 ### Miniatures
+
 - `GET /api/miniatures` - Get all miniatures (with filters)
 - `GET /api/miniatures/:id` - Get single miniature
 - `POST /api/miniatures` - Create miniature (admin only)
@@ -230,6 +235,7 @@ TEST_EMAIL=test@localhost
 ## Roadmap
 
 ### Phase 1: MVP (In Progress)
+
 - ✅ Project setup and architecture
 - ✅ Database schema and migrations
 - ✅ Seed data system
@@ -239,6 +245,7 @@ TEST_EMAIL=test@localhost
 - ⏳ List management features
 
 ### Phase 2: Enhanced Features
+
 - Warhammer 40k data integration (GitHub sources)
 - Advanced painting progress tracking
 - Image uploads via Cloudinary
@@ -247,6 +254,7 @@ TEST_EMAIL=test@localhost
 - Frontend framework migration (React/Vue)
 
 ### Phase 3: Deployment & Advanced
+
 - Docker containerization
 - Proxmox VM deployment
 - Army list builder with points calculator
@@ -267,6 +275,7 @@ TEST_EMAIL=test@localhost
 ## Contributing
 
 This is a personal learning project, but suggestions and feedback are welcome! Feel free to:
+
 - Open issues for bugs or feature requests
 - Submit pull requests for improvements
 - Share your experience using the system
@@ -284,12 +293,14 @@ This is a personal learning project, but suggestions and feedback are welcome! F
 ## Security Considerations
 
 ### For Development
+
 - Change default admin password immediately
 - Use strong SESSION_SECRET in .env
 - Never commit .env file to git
 - Database backups are not included in git
 
 ### For Production
+
 - Use HTTPS only
 - Set secure session cookies
 - Implement rate limiting
@@ -324,12 +335,14 @@ See [API.md](API.md) for comprehensive testing examples.
 ### Common Issues
 
 **Port already in use**
+
 ```bash
 # Change PORT in .env file
 PORT=3001
 ```
 
 **Database errors**
+
 ```bash
 # Recreate database
 rm database/minitracker.db
@@ -338,6 +351,7 @@ npm run db:seed
 ```
 
 **Module not found errors**
+
 ```bash
 # Reinstall dependencies
 rm -rf node_modules package-lock.json
@@ -345,6 +359,7 @@ npm install
 ```
 
 **Session not persisting**
+
 - Check SESSION_SECRET is set in .env
 - Clear browser cookies
 - Restart server
@@ -368,6 +383,7 @@ npm install
 ## Contact & Support
 
 For questions or issues:
+
 - Check the [DEVELOPMENT_GUIDE.md](DEVELOPMENT_GUIDE.md)
 - Review [API.md](API.md) for endpoint details
 - See [PLANNING.md](PLANNING.md) for architecture information

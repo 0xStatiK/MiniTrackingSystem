@@ -82,5 +82,5 @@ module.exports = {
   getDatabase,
   run,
   get,
-  all
+  all,
 };

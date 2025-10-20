@@ -10,15 +10,21 @@ async function seedDatabase() {
     const adminPasswordHash = await bcrypt.hash(process.env.ADMIN_PASSWORD || 'admin123', 10);
     const testPasswordHash = await bcrypt.hash(process.env.TEST_PASSWORD || 'test123', 10);
 
-    await run(`
+    await run(
+      `
       INSERT OR IGNORE INTO users (username, password_hash, email, is_admin)
       VALUES (?, ?, ?, ?)
-    `, [process.env.ADMIN_USERNAME || 'admin', adminPasswordHash, process.env.ADMIN_EMAIL || 'admin@localhost', 1]);
+    `,
+      [process.env.ADMIN_USERNAME || 'admin', adminPasswordHash, process.env.ADMIN_EMAIL || 'admin@localhost', 1]
+    );
 
-    await run(`
+    await run(
+      `
       INSERT OR IGNORE INTO users (username, password_hash, email, is_admin)
       VALUES (?, ?, ?, ?)
-    `, [process.env.TEST_USERNAME || 'testuser', testPasswordHash, process.env.TEST_EMAIL || 'test@localhost', 0]);
+    `,
+      [process.env.TEST_USERNAME || 'testuser', testPasswordHash, process.env.TEST_EMAIL || 'test@localhost', 0]
+    );
 
     console.log('✅ Users seeded');
 
@@ -29,16 +35,18 @@ async function seedDatabase() {
       ['Orks', 'Brutal and warlike green-skinned aliens'],
       ['Tyranids', 'Extra-galactic hive mind organism'],
       ['Aeldari', 'Ancient and advanced alien race'],
-      ['T\'au Empire', 'Technologically advanced alien civilization'],
+      ["T'au Empire", 'Technologically advanced alien civilization'],
       ['Necrons', 'Ancient robotic race awakening from eons of slumber'],
-      ['Imperial Guard', 'Vast armies of humanity\'s soldiers'],
+      ['Imperial Guard', "Vast armies of humanity's soldiers"],
       ['Adeptus Mechanicus', 'Tech-priests of Mars'],
-      ['Genestealer Cults', 'Insidious alien-hybrid cults']
+      ['Genestealer Cults', 'Insidious alien-hybrid cults'],
     ];
 
-    for (const [name, description] of factions) {
-      await run('INSERT OR IGNORE INTO factions (name, description) VALUES (?, ?)', [name, description]);
-    }
+    await Promise.all(
+      factions.map(([name, description]) =>
+        run('INSERT OR IGNORE INTO factions (name, description) VALUES (?, ?)', [name, description])
+      )
+    );
 
     console.log('✅ Factions seeded');
 
@@ -52,12 +60,14 @@ async function seedDatabase() {
       ['Flyer', 'Aircraft and flying units'],
       ['Dedicated Transport', 'Vehicles for transporting units'],
       ['Fortification', 'Defensive structures'],
-      ['Lord of War', 'Super-heavy units']
+      ['Lord of War', 'Super-heavy units'],
     ];
 
-    for (const [name, description] of unitTypes) {
-      await run('INSERT OR IGNORE INTO unit_types (name, description) VALUES (?, ?)', [name, description]);
-    }
+    await Promise.all(
+      unitTypes.map(([name, description]) =>
+        run('INSERT OR IGNORE INTO unitTypes (name, description) VALUES (?, ?)', [name, description])
+      )
+    );
 
     console.log('✅ Unit types seeded');
 
@@ -67,23 +77,32 @@ async function seedDatabase() {
       ['Space Marine Captain', 1, 1, 80, '40mm', 'Commander of Space Marine forces'],
       ['Ork Boyz', 3, 2, 90, '32mm', 'Basic Ork infantry mob'],
       ['Tyranid Termagants', 4, 2, 60, '28mm', 'Basic Tyranid organisms'],
-      ['Imperial Guard Infantry Squad', 8, 2, 65, '25mm', 'Standard human soldiers']
+      ['Imperial Guard Infantry Squad', 8, 2, 65, '25mm', 'Standard human soldiers'],
     ];
-
-    for (const [name, faction_id, unit_type_id, points, base_size, description] of miniatures) {
-      await run(`
-        INSERT OR IGNORE INTO miniatures (name, faction_id, unit_type_id, points_value, base_size, description)
-        VALUES (?, ?, ?, ?, ?, ?)
-      `, [name, faction_id, unit_type_id, points, base_size, description]);
-    }
-
+    await Promise.all(
+      // eslint-disable-next-line camelcase
+      miniatures.map(([name, faction_id, unit_type_id, points, base_size, description]) =>
+        run('INSERT OR IGNORE INTO factions (name, description) VALUES (?, ?)', [
+          // eslint-disable-next-line camelcase
+          name, // eslint-disable-next-line camelcase
+          faction_id, // eslint-disable-next-line camelcase
+          unit_type_id,
+          points, // eslint-disable-next-line camelcase
+          base_size,
+          description,
+        ])
+      )
+    );
     console.log('✅ Sample miniatures seeded');
 
     console.log('\n🎉 Database seeding completed successfully!');
     console.log('\nDefault login credentials:');
-    console.log(`Admin - Username: ${process.env.ADMIN_USERNAME || 'admin'}, Password: ${process.env.ADMIN_PASSWORD || 'admin123'}`);
-    console.log(`Test User - Username: ${process.env.TEST_USERNAME || 'testuser'}, Password: ${process.env.TEST_PASSWORD || 'test123'}`);
-
+    console.log(
+      `Admin - Username: ${process.env.ADMIN_USERNAME || 'admin'}, Password: ${process.env.ADMIN_PASSWORD || 'admin123'}`
+    );
+    console.log(
+      `Test User - Username: ${process.env.TEST_USERNAME || 'testuser'}, Password: ${process.env.TEST_PASSWORD || 'test123'}`
+    );
   } catch (error) {
     console.error('❌ Seeding failed:', error.message);
     process.exit(1);

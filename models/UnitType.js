@@ -41,15 +41,12 @@ class UnitType {
    */
   static create(unitTypeData) {
     const { name, description } = unitTypeData;
-    const result = run(
-      'INSERT INTO unit_types (name, description) VALUES (?, ?)',
-      [name, description || null]
-    );
+    const result = run('INSERT INTO unit_types (name, description) VALUES (?, ?)', [name, description || null]);
 
     return {
       id: result.lastID,
       name,
-      description: description || null
+      description: description || null,
     };
   }
 

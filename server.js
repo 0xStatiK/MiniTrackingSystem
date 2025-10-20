@@ -21,16 +21,18 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Session configuration
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: process.env.NODE_ENV === 'production', // HTTPS only in production
-    httpOnly: true, // Prevent XSS attacks
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
-  }
-}));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === 'production', // HTTPS only in production
+      httpOnly: true, // Prevent XSS attacks
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    },
+  })
+);
 
 // ============================================
 // ROUTES
@@ -59,19 +61,19 @@ app.get('/health', (req, res) => {
 app.use((req, res) => {
   res.status(404).json({
     success: false,
-    error: { message: 'Route not found' }
+    error: { message: 'Route not found' },
   });
 });
 
 // Global error handler
-app.use((err, req, res, next) => {
+app.use((err, req, res, _next) => {
   console.error('Error:', err);
   res.status(err.status || 500).json({
     success: false,
     error: {
       message: err.message || 'Internal server error',
-      ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
-    }
+      ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
+    },
   });
 });
 

@@ -1,5 +1,6 @@
 // routes/users.js
 const express = require('express');
+
 const router = express.Router();
 const User = require('../models/User');
 const { isAuthenticated } = require('../middleware/auth');
@@ -18,24 +19,23 @@ router.get('/me', isAuthenticated, (req, res) => {
         success: false,
         error: {
           message: 'User not found',
-          code: 'NOT_FOUND'
-        }
+          code: 'NOT_FOUND',
+        },
       });
     }
 
     res.json({
       success: true,
-      data: user
+      data: user,
     });
-
   } catch (error) {
     console.error('Get user error:', error);
     res.status(500).json({
       success: false,
       error: {
         message: 'Failed to get user profile',
-        code: 'INTERNAL_ERROR'
-      }
+        code: 'INTERNAL_ERROR',
+      },
     });
   }
 });
@@ -48,7 +48,7 @@ router.get('/me', isAuthenticated, (req, res) => {
 router.put('/me', isAuthenticated, async (req, res) => {
   try {
     const { email, password, currentPassword } = req.body;
-    const userId = req.session.userId;
+    const { userId } = req.session;
 
     // Validation
     if (!email && !password) {
@@ -56,8 +56,8 @@ router.put('/me', isAuthenticated, async (req, res) => {
         success: false,
         error: {
           message: 'At least one field (email or password) is required',
-          code: 'VALIDATION_ERROR'
-        }
+          code: 'VALIDATION_ERROR',
+        },
       });
     }
 
@@ -69,8 +69,8 @@ router.put('/me', isAuthenticated, async (req, res) => {
           error: {
             message: 'Current password is required to change password',
             code: 'VALIDATION_ERROR',
-            field: 'currentPassword'
-          }
+            field: 'currentPassword',
+          },
         });
       }
 
@@ -84,8 +84,8 @@ router.put('/me', isAuthenticated, async (req, res) => {
           error: {
             message: 'Current password is incorrect',
             code: 'INVALID_CREDENTIALS',
-            field: 'currentPassword'
-          }
+            field: 'currentPassword',
+          },
         });
       }
 
@@ -96,8 +96,8 @@ router.put('/me', isAuthenticated, async (req, res) => {
           error: {
             message: 'Password must be at least 8 characters',
             code: 'VALIDATION_ERROR',
-            field: 'password'
-          }
+            field: 'password',
+          },
         });
       }
 
@@ -115,8 +115,8 @@ router.put('/me', isAuthenticated, async (req, res) => {
           error: {
             message: 'Invalid email format',
             code: 'VALIDATION_ERROR',
-            field: 'email'
-          }
+            field: 'email',
+          },
         });
       }
 
@@ -128,8 +128,8 @@ router.put('/me', isAuthenticated, async (req, res) => {
           error: {
             message: 'Email already in use',
             code: 'DUPLICATE_ENTRY',
-            field: 'email'
-          }
+            field: 'email',
+          },
         });
       }
 
@@ -139,18 +139,17 @@ router.put('/me', isAuthenticated, async (req, res) => {
     res.json({
       success: true,
       data: {
-        message: 'Profile updated successfully'
-      }
+        message: 'Profile updated successfully',
+      },
     });
-
   } catch (error) {
     console.error('Update user error:', error);
     res.status(500).json({
       success: false,
       error: {
         message: 'Failed to update profile',
-        code: 'INTERNAL_ERROR'
-      }
+        code: 'INTERNAL_ERROR',
+      },
     });
   }
 });

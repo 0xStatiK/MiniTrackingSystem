@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+out/
+
+# Database files
+database/*.db
+database/*.db-journal
+
+# Coverage
+coverage/
+
+# Logs
+*.log
+
+# Lock files
+package-lock.json
+yarn.lock
+
+# Public assets
+public/vendor/

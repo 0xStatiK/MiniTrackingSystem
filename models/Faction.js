@@ -41,15 +41,12 @@ class Faction {
    */
   static create(factionData) {
     const { name, description } = factionData;
-    const result = run(
-      'INSERT INTO factions (name, description) VALUES (?, ?)',
-      [name, description || null]
-    );
+    const result = run('INSERT INTO factions (name, description) VALUES (?, ?)', [name, description || null]);
 
     return {
       id: result.lastID,
       name,
-      description: description || null
+      description: description || null,
     };
   }
 

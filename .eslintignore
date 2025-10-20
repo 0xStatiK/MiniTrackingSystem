@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+out/
+
+# Database files
+database/*.db
+database/*.db-journal
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Logs
+*.log
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Temporary files
+tmp/
+temp/
+
+# Public assets (third-party libraries, if any)
+public/vendor/
+
+# Generated files
+*.min.js
+
+# OS files
+.DS_Store

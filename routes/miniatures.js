@@ -1,5 +1,6 @@
 // routes/miniatures.js
 const express = require('express');
+
 const router = express.Router();
 const Miniature = require('../models/Miniature');
 const { isAdmin } = require('../middleware/auth');
@@ -14,28 +15,27 @@ router.get('/', (req, res) => {
     const { faction, unitType, search, limit, offset } = req.query;
 
     const filters = {
-      factionId: faction ? parseInt(faction) : undefined,
-      unitTypeId: unitType ? parseInt(unitType) : undefined,
+      factionId: faction ? parseInt(faction, 10) : undefined,
+      unitTypeId: unitType ? parseInt(unitType, 10) : undefined,
       search: search || undefined,
-      limit: limit ? parseInt(limit) : 50,
-      offset: offset ? parseInt(offset) : 0
+      limit: limit ? parseInt(limit, 10) : 50,
+      offset: offset ? parseInt(offset, 10) : 0,
     };
 
     const result = Miniature.getAll(filters);
 
     res.json({
       success: true,
-      data: result
+      data: result,
     });
-
   } catch (error) {
     console.error('Get miniatures error:', error);
     res.status(500).json({
       success: false,
       error: {
         message: 'Failed to get miniatures',
-        code: 'INTERNAL_ERROR'
-      }
+        code: 'INTERNAL_ERROR',
+      },
     });
   }
 });
@@ -54,24 +54,23 @@ router.get('/:id', (req, res) => {
         success: false,
         error: {
           message: 'Miniature not found',
-          code: 'NOT_FOUND'
-        }
+          code: 'NOT_FOUND',
+        },
       });
     }
 
     res.json({
       success: true,
-      data: miniature
+      data: miniature,
     });
-
   } catch (error) {
     console.error('Get miniature error:', error);
     res.status(500).json({
       success: false,
       error: {
         message: 'Failed to get miniature',
-        code: 'INTERNAL_ERROR'
-      }
+        code: 'INTERNAL_ERROR',
+      },
     });
   }
 });
@@ -92,22 +91,22 @@ router.post('/', isAdmin, (req, res) => {
         error: {
           message: 'Miniature name is required',
           code: 'VALIDATION_ERROR',
-          field: 'name'
-        }
+          field: 'name',
+        },
       });
     }
 
     // Validate points value if provided
     if (pointsValue !== undefined && pointsValue !== null) {
-      const points = parseInt(pointsValue);
-      if (isNaN(points) || points < 0) {
+      const points = parseInt(pointsValue, 10);
+      if (Number.isNaN(points) || points < 0) {
         return res.status(400).json({
           success: false,
           error: {
             message: 'Points value must be a positive number',
             code: 'VALIDATION_ERROR',
-            field: 'pointsValue'
-          }
+            field: 'pointsValue',
+          },
         });
       }
     }
@@ -118,22 +117,21 @@ router.post('/', isAdmin, (req, res) => {
       unitTypeId: unitTypeId || null,
       pointsValue: pointsValue || null,
       baseSize: baseSize?.trim() || null,
-      description: description?.trim() || null
+      description: description?.trim() || null,
     });
 
     res.status(201).json({
       success: true,
-      data: miniature
+      data: miniature,
     });
-
   } catch (error) {
     console.error('Create miniature error:', error);
     res.status(500).json({
       success: false,
       error: {
         message: 'Failed to create miniature',
-        code: 'INTERNAL_ERROR'
-      }
+        code: 'INTERNAL_ERROR',
+      },
     });
   }
 });
@@ -155,8 +153,8 @@ router.put('/:id', isAdmin, (req, res) => {
         success: false,
         error: {
           message: 'Miniature not found',
-          code: 'NOT_FOUND'
-        }
+          code: 'NOT_FOUND',
+        },
       });
     }
 
@@ -167,22 +165,22 @@ router.put('/:id', isAdmin, (req, res) => {
         error: {
           message: 'Miniature name cannot be empty',
           code: 'VALIDATION_ERROR',
-          field: 'name'
-        }
+          field: 'name',
+        },
       });
     }
 
     // Validate points value if provided
     if (pointsValue !== undefined && pointsValue !== null) {
-      const points = parseInt(pointsValue);
-      if (isNaN(points) || points < 0) {
+      const points = parseInt(pointsValue, 10);
+      if (Number.isNaN(points) || points < 0) {
         return res.status(400).json({
           success: false,
           error: {
             message: 'Points value must be a positive number',
             code: 'VALIDATION_ERROR',
-            field: 'pointsValue'
-          }
+            field: 'pointsValue',
+          },
         });
       }
     }
@@ -193,24 +191,23 @@ router.put('/:id', isAdmin, (req, res) => {
       unitTypeId,
       pointsValue,
       baseSize: baseSize?.trim(),
-      description: description?.trim()
+      description: description?.trim(),
     });
 
     res.json({
       success: true,
       data: {
-        message: 'Miniature updated successfully'
-      }
+        message: 'Miniature updated successfully',
+      },
     });
-
   } catch (error) {
     console.error('Update miniature error:', error);
     res.status(500).json({
       success: false,
       error: {
         message: 'Failed to update miniature',
-        code: 'INTERNAL_ERROR'
-      }
+        code: 'INTERNAL_ERROR',
+      },
     });
   }
 });
@@ -231,8 +228,8 @@ router.delete('/:id', isAdmin, (req, res) => {
         success: false,
         error: {
           message: 'Miniature not found',
-          code: 'NOT_FOUND'
-        }
+          code: 'NOT_FOUND',
+        },
       });
     }
 
@@ -242,8 +239,8 @@ router.delete('/:id', isAdmin, (req, res) => {
         success: false,
         error: {
           message: 'Cannot delete miniature that is in use by lists',
-          code: 'CONFLICT'
-        }
+          code: 'CONFLICT',
+        },
       });
     }
 
@@ -252,18 +249,17 @@ router.delete('/:id', isAdmin, (req, res) => {
     res.json({
       success: true,
       data: {
-        message: 'Miniature deleted successfully'
-      }
+        message: 'Miniature deleted successfully',
+      },
     });
-
   } catch (error) {
     console.error('Delete miniature error:', error);
     res.status(500).json({
       success: false,
       error: {
         message: 'Failed to delete miniature',
-        code: 'INTERNAL_ERROR'
-      }
+        code: 'INTERNAL_ERROR',
+      },
     });
   }
 });

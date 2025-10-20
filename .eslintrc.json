@@ -1,0 +1,122 @@
+{
+  "env": {
+    "node": true,
+    "es2021": true,
+    "commonjs": true
+  },
+  "extends": ["airbnb-base", "prettier"],
+  "plugins": ["prettier"],
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "module"
+  },
+  "rules": {
+    // Prettier integration
+    "prettier/prettier": "error",
+
+    // Console statements allowed in Node.js backend
+    "no-console": "off",
+
+    // Allow reassigning function parameters (common in Express middleware)
+    "no-param-reassign": ["error", { "props": false }],
+
+    // Allow using continue in loops
+    "no-continue": "off",
+
+    // Allow using for-of loops
+    "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],
+
+    // Allow unused vars that start with underscore
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+
+    // Allow async functions without await
+    "require-await": "off",
+
+    // Prefer const but allow let
+    "prefer-const": "error",
+
+    // Require semicolons
+    "semi": ["error", "always"],
+
+    // Consistent quote style
+    "quotes": ["error", "single", { "avoidEscape": true }],
+
+    // Require trailing commas for multiline
+    "comma-dangle": ["error", "only-multiline"],
+
+    // Consistent arrow function style
+    "arrow-parens": ["error", "always"],
+
+    // Allow both function declarations and expressions
+    "func-style": "off",
+
+    // Consistent object curly spacing
+    "object-curly-spacing": ["error", "always"],
+
+    // Consistent array bracket spacing
+    "array-bracket-spacing": ["error", "never"],
+
+    // Allow both == and === (but === is recommended)
+    "eqeqeq": ["error", "always"],
+
+    // Require curly braces for all control statements
+    "curly": ["error", "all"],
+
+    // Consistent indentation (2 spaces)
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+
+    // Max line length (ignore URLs and long strings)
+    "max-len": [
+      "error",
+      {
+        "code": 120,
+        "ignoreUrls": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreComments": true
+      }
+    ],
+
+    // Allow named exports
+    "import/prefer-default-export": "off",
+
+    // Allow dev dependencies in certain files
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": ["**/*.test.js", "**/*.spec.js", "database/migrations/**", "database/seeds/**"]
+      }
+    ],
+
+    // Allow consistent-return for Express middleware
+    "consistent-return": "off",
+
+    // Enforce newline at end of file
+    "eol-last": ["error", "always"],
+
+    // No multiple empty lines
+    "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }],
+
+    // Require space before blocks
+    "space-before-blocks": "error",
+
+    // Require space before function parentheses
+    "space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "always",
+        "named": "never",
+        "asyncArrow": "always"
+      }
+    ],
+
+    // No trailing spaces
+    "no-trailing-spaces": "error",
+
+    // Allow underscore dangle (common in database fields like user_id)
+    "no-underscore-dangle": "off",
+
+    // Allow class methods without 'this' (useful for static methods)
+    "class-methods-use-this": "off"
+  }
+}
