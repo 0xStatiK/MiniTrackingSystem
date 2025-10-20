@@ -257,3 +257,4 @@ security-logs/
 # - database/migrations/*.sql (schema definitions, no sensitive data)
 # - database/seeds/*.js (uses env vars, no hardcoded secrets)
 # - README.md, PLANNING.md, GETTING_STARTED.md, API.md (documentation)
+BACKEND_IMPLEMENTATION_GUIDE.md
