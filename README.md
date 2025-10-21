@@ -266,9 +266,12 @@ TEST_EMAIL=test@localhost
 
 ## Documentation
 
+- **[README.md](README.md)** - Project overview (you are here!)
 - **[DEVELOPMENT_GUIDE.md](DEVELOPMENT_GUIDE.md)** - Complete development guide for beginners
+- **[IMPLEMENTATION_TASKS_9-12.md](IMPLEMENTATION_TASKS_9-12.md)** - Complete code for Lists, ListItems, Metadata
 - **[API.md](API.md)** - Full API endpoint documentation
 - **[PLANNING.md](PLANNING.md)** - System architecture and design decisions
+- **[ESLINT_SETUP.md](ESLINT_SETUP.md)** - ESLint and Prettier configuration guide
 
 ---
 

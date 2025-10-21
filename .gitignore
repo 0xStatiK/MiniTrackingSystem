@@ -180,6 +180,10 @@ temp/
 *.swp
 *~
 DEVELOPMENT_GUIDE.md
+API.md
+ESLINT_SETUP.md
+PLANNING.md
+IMPLEMENTATION_TASKS_9-12.md
 
 # ========================================
 # MISCELLANEOUS
