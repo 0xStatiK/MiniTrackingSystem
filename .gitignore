@@ -260,6 +260,7 @@ security-logs/
 # Strategic planning and AI context files (private)
 claude.md
 planning/
+.claude/
 
 # ========================================
 # NOTES
