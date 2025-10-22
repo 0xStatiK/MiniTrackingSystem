@@ -255,11 +255,18 @@ audit/
 security-logs/
 
 # ========================================
+# CLAUDE CODE / AI PLANNING FILES
+# ========================================
+# Strategic planning and AI context files (private)
+claude.md
+planning/
+
+# ========================================
 # NOTES
 # ========================================
 # The following are intentionally NOT ignored (committed to git):
 # - .env.example (template for environment variables)
 # - database/migrations/*.sql (schema definitions, no sensitive data)
 # - database/seeds/*.js (uses env vars, no hardcoded secrets)
-# - *.md files (all documentation and guides)
+# - README.md and docs/*.md (public documentation)
 # - database/migrations/ and database/seeds/ (schema and seeding scripts)

@@ -140,7 +140,7 @@ The application uses SQLite with 7 main tables:
 - **list_items** - Miniatures in lists with tracking data
 - **metadata** - Extended metadata for list items
 
-See [PLANNING.md](PLANNING.md) for detailed Entity Relationship Diagrams.
+See [docs/API.md](docs/API.md) for detailed API documentation.
 
 ---
 
@@ -182,7 +182,7 @@ See [PLANNING.md](PLANNING.md) for detailed Entity Relationship Diagrams.
 - `PUT /api/miniatures/:id` - Update miniature (admin only)
 - `DELETE /api/miniatures/:id` - Delete miniature (admin only)
 
-See [API.md](API.md) for complete API documentation with request/response examples.
+See [docs/API.md](docs/API.md) for complete API documentation with request/response examples.
 
 ---
 
@@ -267,11 +267,7 @@ TEST_EMAIL=test@localhost
 ## Documentation
 
 - **[README.md](README.md)** - Project overview (you are here!)
-- **[DEVELOPMENT_GUIDE.md](DEVELOPMENT_GUIDE.md)** - Complete development guide for beginners
-- **[IMPLEMENTATION_TASKS_9-12.md](IMPLEMENTATION_TASKS_9-12.md)** - Complete code for Lists, ListItems, Metadata
-- **[API.md](API.md)** - Full API endpoint documentation
-- **[PLANNING.md](PLANNING.md)** - System architecture and design decisions
-- **[ESLINT_SETUP.md](ESLINT_SETUP.md)** - ESLint and Prettier configuration guide
+- **[docs/API.md](docs/API.md)** - Full API endpoint documentation
 
 ---
 
@@ -329,7 +325,7 @@ curl http://localhost:3000/api/factions
 curl http://localhost:3000/api/miniatures
 ```
 
-See [API.md](API.md) for comprehensive testing examples.
+See [docs/API.md](docs/API.md) for comprehensive testing examples.
 
 ---
 
@@ -387,9 +383,8 @@ npm install
 
 For questions or issues:
 
-- Check the [DEVELOPMENT_GUIDE.md](DEVELOPMENT_GUIDE.md)
-- Review [API.md](API.md) for endpoint details
-- See [PLANNING.md](PLANNING.md) for architecture information
+- Review [docs/API.md](docs/API.md) for API endpoint details
+- Check the GitHub issues page for known problems
 
 ---
 
