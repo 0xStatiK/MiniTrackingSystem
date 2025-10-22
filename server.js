@@ -48,10 +48,13 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });
 });
 
-// API routes will be added here later
-// app.use('/api/auth', require('./routes/auth'));
-// app.use('/api/users', require('./routes/users'));
-// etc.
+// API routes
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/users', require('./routes/users'));
+app.use('/api/factions', require('./routes/factions'));
+app.use('/api/unit-types', require('./routes/unitTypes'));
+app.use('/api/miniatures', require('./routes/miniatures'));
+// app.use('/api/lists', require('./routes/lists')); // TODO: Create routes/lists.js
 
 // ============================================
 // ERROR HANDLING
