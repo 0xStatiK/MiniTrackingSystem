@@ -2,7 +2,7 @@
 
 // Check if the user is authenticated
 function isAuthenticated(req, res, next) {
-  if (req.session && req.session.userID) {
+  if (req.session && req.session.userId) {
     return next();
   }
 
@@ -17,7 +17,7 @@ function isAuthenticated(req, res, next) {
 
 // Check if the user isAdmin
 function isAdmin(req, res, next) {
-  if (!req.session || !req.session.userID) {
+  if (!req.session || !req.session.userId) {
     return res.status(401).json({
       success: false,
       error: {

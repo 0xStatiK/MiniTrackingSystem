@@ -54,7 +54,7 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/factions', require('./routes/factions'));
 app.use('/api/unit-types', require('./routes/unitTypes'));
 app.use('/api/miniatures', require('./routes/miniatures'));
-// app.use('/api/lists', require('./routes/lists')); // TODO: Create routes/lists.js
+app.use('/api/lists', require('./routes/lists'));
 
 // ============================================
 // ERROR HANDLING
