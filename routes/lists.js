@@ -3,6 +3,7 @@ const express = require('express');
 
 const router = express.Router();
 const List = require('../models/List');
+const ListItem = require('../models/ListItem');
 const { isAuthenticated, optionalAuth } = require('../middleware/auth');
 
 /**
@@ -281,6 +282,98 @@ router.delete('/:id', isAuthenticated, (req, res) => {
       success: false,
       error: {
         message: 'Failed to delete list',
+        code: 'INTERNAL_ERROR',
+      },
+    });
+  }
+});
+
+/**
+ * POST /api/lists/:id/items
+ * Add miniature to list
+ * Requires authentication and ownership
+ */
+router.post('/:id/items', isAuthenticated, (req, res) => {
+  try {
+    const listId = parseInt(req.params.id, 10);
+    const { miniatureId, quantity, assemblyStatus, paintingStatus, notes } =
+      req.body;
+
+    // Check if list exists and user owns it
+    if (!List.isOwnedBy(listId, req.session.userId)) {
+      return res.status(403).json({
+        success: false,
+        error: {
+          message: 'You do not have permission to edit this list',
+          code: 'FORBIDDEN',
+        },
+      });
+    }
+
+    // Validation
+    if (!miniatureId) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'Miniature ID is required',
+          code: 'VALIDATION_ERROR',
+          field: 'miniatureId',
+        },
+      });
+    }
+
+    if (quantity !== undefined && (quantity < 1 || !Number.isInteger(quantity))) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'Quantity must be a positive integer',
+          code: 'VALIDATION_ERROR',
+          field: 'quantity',
+        },
+      });
+    }
+
+    if (assemblyStatus && !ListItem.isValidAssemblyStatus(assemblyStatus)) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: `Invalid assembly status. Must be one of: ${ListItem.ASSEMBLY_STATUS.join(', ')}`,
+          code: 'VALIDATION_ERROR',
+          field: 'assemblyStatus',
+        },
+      });
+    }
+
+    if (paintingStatus && !ListItem.isValidPaintingStatus(paintingStatus)) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: `Invalid painting status. Must be one of: ${ListItem.PAINTING_STATUS.join(', ')}`,
+          code: 'VALIDATION_ERROR',
+          field: 'paintingStatus',
+        },
+      });
+    }
+
+    const item = ListItem.create({
+      listId,
+      miniatureId,
+      quantity,
+      assemblyStatus,
+      paintingStatus,
+      notes,
+    });
+
+    res.status(201).json({
+      success: true,
+      data: item,
+    });
+  } catch (error) {
+    console.error('Add item to list error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: 'Failed to add item to list',
         code: 'INTERNAL_ERROR',
       },
     });

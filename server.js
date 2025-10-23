@@ -55,6 +55,9 @@ app.use('/api/factions', require('./routes/factions'));
 app.use('/api/unit-types', require('./routes/unitTypes'));
 app.use('/api/miniatures', require('./routes/miniatures'));
 app.use('/api/lists', require('./routes/lists'));
+app.use('/api/list-items', require('./routes/listItems'));
+app.use('/api/list-items', require('./routes/metadata')); // GET/POST /api/list-items/:id/metadata
+app.use('/api/metadata', require('./routes/metadata')); // DELETE /api/metadata/:id
 
 // ============================================
 // ERROR HANDLING
